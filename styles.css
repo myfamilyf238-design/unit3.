@@ -1,0 +1,167 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #0f0f0f;
+  color: #fff;
+}
+.header { 
+  background: #007aff; 
+  padding: 15px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.header h1 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+/* Input Section */
+.input-section {
+  display: flex;
+  margin: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#taskInput {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  outline: none;
+  background: #3a3a3a;
+  color: #fff;
+  font-size: 16px;
+}
+
+#taskInput::placeholder {
+  color: #aaa;
+}
+
+#addTaskBtn {
+  background: #3d8ec9;
+  border: none;
+  color: white;
+  padding: 0 20px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Filter Buttons */
+.filters {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.filters button {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.filters button.active {
+  color: white;
+}
+.filters button:hover {
+    background-color: #007aff;
+}
+.filters button.active:hover {
+    background-color: #007aff;
+}
+
+/* Task List */
+#taskList {
+  list-style: none;
+  padding: 10px 15px;
+}
+
+/* Empty Message */
+#taskList li {
+  padding: 15px 0;
+  border-bottom: 1px solid #222;
+}
+
+#taskList li:only-child {
+  font-style: italic;
+  color: #aaa;
+}
+
+/* Task Item */
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Checkbox */
+li input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* Task Text */
+li span {
+  flex: 1;
+  margin-left: 10px;
+}
+
+/* Completed Task */
+li span.completed {
+  text-decoration: line-through;
+  color: #777;
+}
+
+/* Delete Button */
+li button {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #1c1c1c;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* Clear Completed Button */
+#clearCompletedBtn {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+}
+
+#clearCompletedBtn:hover {
+  color: red;
+}
