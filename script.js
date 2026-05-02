@@ -1,24 +1,28 @@
-//  Select Elements
+// Select Elements
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
-const taskCounter = document.getElementById("taskCounter");
+const taskCounter = document.getElementById("taskCount"); 
 
 // Filter buttons
 const allBtn = document.getElementById("allBtn");
 const activeBtn = document.getElementById("activeBtn");
 const completedBtn = document.getElementById("completedBtn");
 
+// Clear button
+const clearCompletedBtn = document.getElementById("clearCompletedBtn");
+
 // Initialize Data
 let tasks = [];
 let filteredTasks = [];
 let currentFilter = "all";
 
-// showTasks Function
+// Show Tasks
 function showTasks() {
   taskList.innerHTML = "";
 
-  if (filteredTasks.length === 0) {
+  // Better empty handling
+  if (tasks.length === 0) {
     taskList.innerHTML = "<li>Your to-do list is empty!</li>";
     return;
   }
@@ -26,6 +30,7 @@ function showTasks() {
   filteredTasks.forEach(task => {
     const li = document.createElement("li");
 
+    // Checkbox
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = task.completed;
@@ -34,6 +39,7 @@ function showTasks() {
       toggleTask(task.id);
     });
 
+    // Text
     const span = document.createElement("span");
     span.textContent = task.text;
 
@@ -59,29 +65,41 @@ function showTasks() {
   });
 }
 
-//  Toggle Task
+// Toggle Task
 function toggleTask(taskId) {
-  tasks = tasks.map(task => {
-    if (task.id === taskId) {
-      return { ...task, completed: !task.completed };
-    }
-    return task;
-  });
+  tasks = tasks.map(task =>
+    task.id === taskId
+      ? { ...task, completed: !task.completed }
+      : task
+  );
 
   saveTasks();
   applyFilter();
 }
 
-// Step 9: Task Counter
+// Task Counter
 function updateTaskCount() {
   const activeTasks = tasks.filter(task => !task.completed).length;
- if (activeTasks === 1 ) {
+
+  if (activeTasks === 1) {
     taskCounter.textContent = "1 item left";
- } else {
- taskCounter.textContent = `Active Tasks: ${activeTasks} items left`;
+  } else {
+    taskCounter.textContent = `${activeTasks} items left`;
+  }
 }
+
+// Update Active Filter Button UI
+function updateActiveButton() {
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (currentFilter === "all") allBtn.classList.add("active");
+  if (currentFilter === "active") activeBtn.classList.add("active");
+  if (currentFilter === "completed") completedBtn.classList.add("active");
 }
-//  Apply Filter
+
+// Apply Filter
 function applyFilter() {
   if (currentFilter === "active") {
     filteredTasks = tasks.filter(task => !task.completed);
@@ -93,12 +111,15 @@ function applyFilter() {
 
   showTasks();
   updateTaskCount();
+  updateActiveButton(); 
 }
 
+// Save Tasks
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+// Load Tasks
 function loadTasks() {
   const storedTasks = localStorage.getItem("tasks");
 
@@ -109,7 +130,7 @@ function loadTasks() {
   applyFilter();
 }
 
-// Step 3 & 5: Add Task Button
+// Add Task
 function addTask() {
   const text = taskInput.value.trim();
 
@@ -128,11 +149,12 @@ function addTask() {
   saveTasks();
   applyFilter();
 }
-taskList.innerHTML = "<li>Your to-do list is empty!</li>";
+
+// Event Listeners
 addTaskBtn.addEventListener("click", addTask);
 
-// Step 8: Enter Key Support
-taskInput.addEventListener("keypress", function (event) {
+// Enter key support (UPDATED)
+taskInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     addTask();
   }
@@ -154,7 +176,6 @@ completedBtn.addEventListener("click", () => {
   applyFilter();
 });
 
-
 // Clear Completed
 function clearCompleted() {
   tasks = tasks.filter(task => !task.completed);
@@ -162,11 +183,8 @@ function clearCompleted() {
   applyFilter();
 }
 
-function markAllCompleted() {
-  tasks = tasks.map(task => ({ ...task, completed: true }));
-  saveTasks();
-  applyFilter();
-}
+// Connect Clear Button 
+clearCompletedBtn.addEventListener("click", clearCompleted);
 
-// Load tasks 
-loadTasks();
+// Load tasks on start
+document.addEventListener("DOMContentLoaded", loadTasks);
